@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       get '/verify', to: 'users#verify'
       post '/auth/login', to: 'authentication#login'
+      delete '/auth/logout', to: 'authentication#logout'
     end
   end
 end
