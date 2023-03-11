@@ -16,6 +16,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(response).to have_http_status(:unauthorized)
     end
 
+    it 'ensures passwords are in a valid format when signing up' do
+      post :create, as: :json, params: {username: 'TestUser', password: 'pa33w0rd'}
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'create returns 400 if credentials are not passed' do
       post :create, as: :json, params: {username: '', password: 'Pa33w$0rd'}
       expect(response).to have_http_status(:unauthorized)
