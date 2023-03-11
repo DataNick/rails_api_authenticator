@@ -2,16 +2,19 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate, only: [:create]
 
   def create
-    if params[:username].nil? || params[:password].nil?
+    username, password = params[:username], params[:password]
+    username = username.downcase
+    if username.nil? || password.nil?
       render json: {errors: "bad request", status_code: 400}, status: :bad_request
       return
     end
-    # username, password = params[:username], params[:password]
     user = User.new(user_params)
+    user.username = username
     if user.save_to_redis_store
       render json: user.serializable_hash, status: 200
     else
-     render json: { message: "Bad credentials", status: :unauthorized, code: 401 }, status: :unauthorized
+     errors = User.find_by_username(username) ? user.errors.full_messages << "Username already taken" : user.errors.full_messages
+     render json: { message: "Bad credentials.", errors: errors, status: :unauthorized, code: 401 }, status: :unauthorized
     end
   end
 
