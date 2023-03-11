@@ -5,7 +5,7 @@ module EncryptionHelper
   end
 
   def decrypt(encrypted_data)
-    crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY'])
+    crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY'])    
     crypt.decrypt_and_verify(encrypted_data)
   end
 end

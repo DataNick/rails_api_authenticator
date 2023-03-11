@@ -13,7 +13,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_user
     # using username but should be built out to substitute with a JWT or Auth token
-    username = decrypt(cookies[:username])
+    username = !cookies[:username].blank? ? decrypt(cookies[:username]) : ''
     response = $redis_credentials.get(username)
     if !response.nil?
       return true
