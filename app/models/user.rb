@@ -27,12 +27,4 @@ class User
     {'username' => nil, 'password_digest' => nil, 'password'=> nil}
   end
 
-
-  def unique_username(username)
-     if $redis_credentials.get(username).nil?
-       return true
-     else
-       return false
-     end
-  end
 end
