@@ -1,4 +1,5 @@
 class Api::V1::AuthenticationController < ApplicationController
+  include EncryptionHelper
   include ActionController::HttpAuthentication::Token::ControllerMethods
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
@@ -7,11 +8,10 @@ class Api::V1::AuthenticationController < ApplicationController
 
   def login
     username, password = params[:username], params[:password]
-    redis_search = $redis_credentials.get(params[:username])
+    password_digest = $redis_credentials.get(params[:username])
     if redis_search.nil?
       render json: { message: "Record not found", status: :not_found, code: 404 }, status: :not_found
     else
-      password_digest = redis_search
       user = User.new(username:username, password_digest: password_digest)
       if user.authenticate(password)
         encrypted_data = encrypt(username)

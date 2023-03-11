@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authenticate, only: [:create, :index]
+  skip_before_action :authenticate, only: [:create]
 
   def create
     if params[:username].nil? || params[:password].nil?
@@ -15,13 +15,13 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def verify
-    render json: { message: "Welcome.", status: :ok, code: 200 }, status: :ok
+  def auth_verification
+    render json: { message: "Authorization verified.", status: :ok, code: 200 }, status: :ok
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.permit(:username, :password)
   end
 end

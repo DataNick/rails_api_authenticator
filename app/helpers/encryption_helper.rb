@@ -1,4 +1,4 @@
-module Encryptor
+module EncryptionHelper
   def encrypt(value)
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY'])
     encrypted_data = crypt.encrypt_and_sign(value)
