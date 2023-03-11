@@ -14,7 +14,7 @@ Tests are run using rspec
 ## Endpoints
 Create new user in redis datastore: POST http://localhost:3000/api/v1/users data: {username: string, password: string}
 Login with credentials: POST http://localhost:3000/api/v1/login data: {username: string, password: string}
-Once logged in, verify without using login credentials: GET http://localhost:3000/api/v1/auth_verification
+Once logged in, verify without using login credentials (the cookie has the encrypted username that is compared on subsequent requests): GET http://localhost:3000/api/v1/auth_verification
 Delete cookie value and log out of application: DELETE http://localhost:3000/api/v1/logout
 
 ## Design Decisions
@@ -31,12 +31,15 @@ The application controller handles authentication calls across the different act
 
 As a value to be stored for subsequent requests, the username is being encrypted on the server side. In the application_controller, the encrypted value is decrypted on subsequent requests, a search for the decrypted username in redis is done and, if found, returns true for the authenticated user. The authenticate action is a before_action for all actions except the create and login actions to ensure only authenticated users are allowed access.
 
-Next steps:
+## Next steps:
 Remove username as the hashed value being stored across request. Eventually build out a token system.
-Set up a better system to store usernames - currently just downcasing for ease of searching and comparing new user credentials.
+Set up a better system to store usernames - currently just downcasing for ease of searching and comparing new user credentials. Add ability to store names like JohnT or Jason Able. Users should expect to see the data they submitted in the format in which it was submitted.
 ActiveRecord, which I wasn't using, uses the Uniqueness validator check and so it's not accessible for Redis datastore. There should be a way to extract the keys (usernames) and do a comparison for new keys to be inserted. Time and memory requirements will need to be determined.
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Build out error message functionality as the login requirements change. Possibly into a separate module or build out RedisRecord module.
+A more persistent database depending on the service needs.
+Add password confirmation to ensure user won't make a mistake on subsequent logins.
+Add forgot password functionality to ensure users will be able to access their account by changing passwords.
+Handle cases of suspicious behaviour (i.e. bots trying brute force attempts to login)
 
 ## Testing
 Tests for authentication and user controllers have been created and ensure functionality of all the crucial parts of the system are covered.
