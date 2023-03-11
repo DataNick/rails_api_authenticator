@@ -1,21 +1,21 @@
 # Technical Challenge - Authentication API for internal services to create and authenticate users
 
 ## Note on testing the API
-This application was verified using the Postman API platform using the endpoint 'http://localhost:3000/api/v1/'
-The POST actions (login, users#create), listed in routes, take username and password
-Once the user has been created and logged, the GET /auth_verification is used to verify the authenticity of the user
+* This application was verified using the Postman API platform using the endpoint 'http://localhost:3000/api/v1/'
+* The POST actions (login, users#create), listed in routes, take username and password
+* Once the user has been created and logged, the GET /auth_verification is used to verify the authenticity of the user
 
 ## Set up
-Bundle install
-Run rails server in one terminal window.
-In another terminal window, run redis-server
-Tests are run using rspec
+* Bundle install
+* Run rails server in one terminal window.
+* In another terminal window, run redis-server
+* Tests are run using rspec
 
 ## Endpoints
-Create new user in redis datastore: POST http://localhost:3000/api/v1/users data: {username: string, password: string}
-Login with credentials: POST http://localhost:3000/api/v1/login data: {username: string, password: string}
-Once logged in, verify without using login credentials (the cookie has the encrypted username that is compared on subsequent requests): GET http://localhost:3000/api/v1/auth_verification
-Delete cookie value and log out of application: DELETE http://localhost:3000/api/v1/logout
+* Create new user in redis datastore: POST http://localhost:3000/api/v1/users data: {username: string, password: string}
+* Login with credentials: POST http://localhost:3000/api/v1/login data: {username: string, password: string}
+* Once logged in, verify without using login credentials (the cookie has the encrypted username that is compared on subsequent requests): GET http://localhost:3000/api/v1/auth_verification
+* Delete cookie value and log out of application: DELETE http://localhost:3000/api/v1/logout
 
 ## Design Decisions
 * Since redis is the datastore being used, there was no need to use ActiveRecord and create tables.
