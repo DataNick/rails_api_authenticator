@@ -8,7 +8,8 @@ class Api::V1::AuthenticationController < ApplicationController
 
   def login
     username, password = params[:username], params[:password]
-    password_digest = $redis_credentials.get(params[:username])
+    username = username.downcase
+    password_digest = $redis_credentials.get(username)
     if password_digest.nil?
       render json: { message: "Record not found", status: :not_found, code: 404 }, status: :not_found
     else
@@ -22,12 +23,6 @@ class Api::V1::AuthenticationController < ApplicationController
       end
     end
   end
-
-#
-#   "username": "Dan",
-# "password_digest": "$2a$12$5il2V34yTJZtRDp5vf391epzChiWFqhgN6t6LXC9XOlb6kVmOkuiG",
-# "password": "Pa33&w0rD"
-# 6323819
 
   def logout
     cookies[:username] = ''
