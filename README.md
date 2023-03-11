@@ -40,6 +40,7 @@ A more persistent database depending on the service needs.
 Add password confirmation to ensure user won't make a mistake on subsequent logins.
 Add forgot password functionality to ensure users will be able to access their account by changing passwords.
 Handle cases of suspicious behaviour (i.e. bots trying brute force attempts to login)
+Add testing to RedisRecord. Handle mocking redis store requests in rspec
 
 ## Testing
 Tests for authentication and user controllers have been created and ensure functionality of all the crucial parts of the system are covered.
