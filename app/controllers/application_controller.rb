@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::API
   include EncryptionHelper
-  include ActionController::HttpAuthentication::Token::ControllerMethods
   include ActionController::Cookies
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
   before_action :authenticate
