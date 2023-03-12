@@ -3,7 +3,6 @@ class Api::V1::AuthenticationController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
-  # before_action :authenticate
   skip_before_action :authenticate
 
   def login
